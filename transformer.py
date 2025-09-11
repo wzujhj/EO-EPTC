@@ -7,7 +7,7 @@ import collections
 
 # reference: Dive into Deep Learning
 # link: https://d2l.ai/
-#       https://github.com/d2l-ai/d2l-en
+#       https://github.com/d2l-ai/d2l-zh
 
 
 class PositionWiseFFN(nn.Module):
