@@ -242,7 +242,7 @@ if __name__ == '__main__':
 
     # platform can be 'windows_chrome', 'windows_firefox', 'ubuntu_chrome', 'ubuntu_firefox'
     platform = 'ubuntu_chrome'
-    # proxy can be 'sst', 'trtt', 'vmtt', 'vltt'
+    # proxy config can be 'sst', 'trtt', 'vmtt', 'vltt'
     proxy_type = 'sst'
 
     dataset_dir = 'dataset'
