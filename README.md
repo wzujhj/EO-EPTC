@@ -5,7 +5,7 @@ Encrypted Proxy Traffic Classification Framework".
 
 ### Requirement
 
-- python == 3.10.13
+- python==3.10.13
 - d2l==0.17.5
 - numpy==2.3.3
 - scikit_learn==1.3.2
