@@ -27,13 +27,13 @@ dataset
 Each TCP packet in flow includes attributes such as direction, packet length, SYN, ACK, and PUSH. For example
 
 ```
-['c2s','517', '0', '1', '1'], ['s2c','1460', '0', '1', '0']
+['c2s', '517', '0', '1', '1'], ['s2c', '1460', '0', '1', '0']
 ```
 
 Each TLS packet includes attributes such as direction, record type, and record length.For example
 
 ```
-['c2s','22:1', '238'], ['s2c','22:2', '122']
+['c2s', '22:1', '238'], ['s2c', '22:2', '122']
 ```
 
 ### How to use
