@@ -137,13 +137,11 @@ def Proxy_Handshak_Drop(stream, type, proxy_type):
         proxy_c2s = 1
         proxy_s2c = 6
 
-
     elif proxy_type == 'vmtt':
         local_c2s = 0
         local_s2c = 0
         proxy_c2s = 3
         proxy_s2c = 7
-
 
     elif proxy_type == 'vltt':
         local_c2s = 0
@@ -192,6 +190,7 @@ def code_vector(dataset):
             data_vector.append([local_sq, proxy_sq])
     return data_vector
 
+
 def rf_data_construct(dataset, train_index, test_index):
     dataset_keys = list(dataset.keys())
 
@@ -202,6 +201,7 @@ def rf_data_construct(dataset, train_index, test_index):
     test_data = [dataset[key] for key in test_data_keys]
 
     return train_data, test_data
+
 
 def rf_vector(dataset, dataset_type, args, proxy_type):
     packet_limit = args.packet_limits
@@ -225,6 +225,7 @@ def rf_vector(dataset, dataset_type, args, proxy_type):
     else:
         raise KeyError
     return data_vector
+
 
 def ML_RandomForest(train, test):
     train_vec = np.array(train)
