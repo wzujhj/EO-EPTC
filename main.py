@@ -240,17 +240,24 @@ if __name__ == '__main__':
     # configure
     args = ArgumentParser()
 
-    cache_dir = os.path.join('data', 'seq2seq')
-    classify_cache_dir = os.path.join('data', 'seqclassify')
-    res_cache_dir = os.path.join('data', 'result')
-    dataset_file = 'vltt_seq2seq.cache.pk'
-    classify_dataset_file = dataset_file.replace('seq2seq.cache.pk', 'seqclassify.cache.pk')
+    # platform can be 'windows_chrome', 'windows_firefox', 'ubuntu_chrome', 'ubuntu_firefox'
+    platform = 'ubuntu_chrome'
+    # proxy can be 'sst', 'trtt', 'vmtt', 'vltt'
+    proxy_type = 'sst'
 
-    dataset_file_path = os.path.join(cache_dir, dataset_file)
-    proxy_type = dataset_file.split('_')[0]
+    dataset_dir = 'dataset'
+    classify_data_path = os.path.join(dataset_dir, platform, proxy_type + '_seq2seq.cache.pk')
+    print('classify_data_path:', classify_data_path)
+    seq2seq_data_path = os.path.join(dataset_dir, platform, proxy_type + '_seqclassify.cache.pk')
+    print('seq2seq_data_path:', classify_data_path)
+    result_dir = os.path.join('data', 'result')
 
-    with open(dataset_file_path, 'rb') as fp:
-        streams = pickle.load(fp)
+    with open(classify_data_path, 'rb') as fp:
+        streams_classify = pickle.load(fp)
+    print('Load seqclassify Dataset Finished')
+
+    with open(seq2seq_data_path, 'rb') as fp:
+        streams_seq2seq = pickle.load(fp)
     print('Load seq2seq Dataset Finished')
 
     torch.manual_seed(args.seed)
@@ -263,11 +270,9 @@ if __name__ == '__main__':
     random.seed(args.seed)
 
     # data construction
-    train_data = data_construct(streams)
-
+    train_data = data_construct(streams_seq2seq)
     # data preprocessing
     train_vector = code_vector(train_data)
-
     train_iter, src_vocab, tgt_vocab = load_data(train_vector, args, len(train_vector))
 
     encoder = TransformerEncoder(len(src_vocab), args)
@@ -280,14 +285,6 @@ if __name__ == '__main__':
     train_seq2seq(net, train_iter, tgt_vocab, args, device)
 
     data_set = {}
-
-    classify_dataset_file_path = os.path.join(classify_cache_dir, classify_dataset_file)
-    print('dataset_file', classify_dataset_file)
-
-    with open(classify_dataset_file_path, 'rb') as fp:
-        streams_classify = pickle.load(fp)
-    print('Load seqclassify Dataset Finished')
-
     total = len(streams_classify)
     pcount = 0
     percent_step = max(1, total // 10)
@@ -316,7 +313,7 @@ if __name__ == '__main__':
             data_set[key]['proxy'] = proxy_length_sequence
             data_set[key]['translate'] = translate_length_sequence
 
-    cache_path = os.path.join(res_cache_dir, proxy_type+'_classification' + '.cache.pk')
+    cache_path = os.path.join(result_dir, proxy_type+'_classification' + '.cache.pk')
     print("Progress: 100%")
     with open(cache_path, 'wb') as fp:
         pickle.dump(data_set, fp)
